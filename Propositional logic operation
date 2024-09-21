@@ -1,0 +1,73 @@
+// 명제 논리연산 시스템 C코딩
+
+#include <stdio.h>
+
+int OR(int p, int q) { // 논리OR 연산 함수
+    return p || q;
+}
+
+int AND(int p, int q) { // 논리AND 연산 함수
+    return p && q;
+}
+
+int ORproposition(int p, int q) {
+    return !p || OR(p, q);
+}
+
+int ANDproposition(int p, int q) {
+    return !q && AND(p, q);
+}
+
+char get(char *name) {  // 명제 이름 입력 함수
+    printf("명제의 이름: ");
+    scanf("%s", name);
+}
+
+int select_menu() { // 논리연산시스템 선택함수
+    int i;
+    do {
+        printf("1-- OR\n");
+        printf("2-- AND\n");
+        printf("사용하고자 하는 명제논리연산 유형 번호: ");
+        scanf("%d", &i);
+    } while(i < 1 || i > 2);
+    return i;
+}
+
+char TF(int tf) {  // 1 = T, 0 = F로 변환하는 함수
+    if(tf == 1) {
+        return 'T';
+    }
+    else if(tf == 0) {
+        return 'F';
+    }
+}
+
+int main(void) {
+    int p;
+    int q;
+    char name_p[5];
+    get(name_p);
+    char name_q[5];
+    get(name_q);
+    int i = select_menu();
+    if(i == 1) {
+        printf("%s | %s | (%s v %s) | %s -> (%s v %s)\n", name_p, name_q, name_p, name_q, name_p, name_p, name_q);
+        printf("------------------------------\n");
+        for(p = 1; p >= 0; p--) {
+            for(q = 1; q >= 0; q--) {
+                printf("%c   %c      %c          %c\n", TF(p), TF(q), TF(OR(p, q)), TF(ORproposition(p, q)));
+            }
+        }
+    }
+    else if(i == 2) {
+        printf("%s | %s | (%s ^ %s) | %s -> (%s ^ %s)\n", name_p, name_q, name_p, name_q, name_p, name_p, name_q);
+        printf("------------------------------\n");
+        for(p = 1; p >= 0; p--) {
+            for(q = 1; q >= 0; q--) {
+                printf("%c   %c      %c          %c\n", TF(p), TF(q), TF(AND(p, q)), TF(ANDproposition(p, q)));
+            }
+        }
+    }
+    return 0;
+}
