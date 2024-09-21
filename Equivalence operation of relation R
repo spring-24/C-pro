@@ -1,0 +1,109 @@
+// 관계 R의 동치류 연산
+
+#include <stdio.h>
+#define SIZE 100  // 최대 크기는 100개의 관계
+
+// 반사성 여부
+int Reflexive(int relation[][2], int n, int set[], int set_size) {
+    for (int i = 0; i < set_size; i++) {
+        int found = 0;
+        for (int j = 0; j < n; j++) {
+            if (relation[j][0] == set[i] && relation[j][1] == set[i]) {
+                found = 1;
+                break;
+            }
+        }
+        if (!found) return 0;  // 한 번이라도 반사성이 미성립 0 반환
+    }
+    return 1;  // 모든 원소에 대해 성립 1 반환
+}
+
+// 대칭성 여부
+int Symmetric(int relation[][2], int n) {
+    for (int i = 0; i < n; i++) {
+        int found = 0;
+        for (int j = 0; j < n; j++) {
+            if (relation[i][0] == relation[j][1] && relation[i][1] == relation[j][0]) {
+                found = 1;
+                break;
+            }
+        }
+        if (!found) return 0;  // 대칭성 미성립 0 반환
+    }
+    return 1;  // 모든 관계에 대해 성립 1 반환
+}
+
+// 추이성 여부
+int Transitive(int relation[][2], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (relation[i][1] == relation[j][0]) {
+                int found = 0;
+                for (int k = 0; k < n; k++) {
+                    if (relation[i][0] == relation[k][0] && relation[j][1] == relation[k][1]) {
+                        found = 1;
+                        break;
+                    }
+                }
+                if (!found) return 0;  // 추이성 미성립 0 반환
+            }
+        }
+    }
+    return 1;  // 모든 관계에 대해 성립 1 반환
+}
+
+// 동치관계 여부 검사 함수
+int isEquivalenceRelation(int relation[][2], int n, int set[], int set_size) {
+    return Reflexive(relation, n, set, set_size) && 
+           Symmetric(relation, n) && 
+           Transitive(relation, n);
+}
+
+// 동치류 출력 함수
+void findEquivalenceClass(int relation[][2], int n, int element) {
+    printf("%d의 동치류: { ", element);
+    for (int i = 0; i < n; i++) {
+        if (relation[i][0] == element) {
+            printf("%d ", relation[i][1]);
+        }
+    }
+    printf("}\n");
+}
+
+int main() {
+    int relation[SIZE][2];  // 관계 R
+    int set[SIZE];          // 집합 원소들을 저장하는 배열
+    int n, set_size;
+
+    // 관계 입력
+    printf("관계 R에 있는 쌍의 개수를 입력하세요: ");
+    scanf("%d", &n);
+
+    printf("관계 R의 각 쌍을 입력하세요 (a, b 형식):\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &relation[i][0], &relation[i][1]);
+    }
+
+    // 집합 입력
+    printf("집합의 원소 개수를 입력하세요: ");
+    scanf("%d", &set_size);
+
+    printf("집합의 원소들을 입력하세요: ");
+    for (int i = 0; i < set_size; i++) {
+        scanf("%d", &set[i]);
+    }
+
+    // 동치관계 여부 검사
+    if (isEquivalenceRelation(relation, n, set, set_size)) {
+        printf("주어진 관계는 동치관계입니다.\n");
+
+        // 각 원소의 동치류 출력
+        for (int i = 0; i < set_size; i++) {
+            findEquivalenceClass(relation, n, set[i]);
+        }
+    } else {
+        printf("주어진 관계는 동치관계가 아닙니다.\n");
+    }
+
+    return 0;
+}
