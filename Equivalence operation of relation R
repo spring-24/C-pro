@@ -1,9 +1,9 @@
 // 관계 R의 동치류 연산
 
 #include <stdio.h>
-#define SIZE 100  // 최대 크기는 100개의 관계
+#define SIZE 100  // 고정변수 SIZE는 100으로 고정.
 
-// 반사성 여부
+// 반사성 여부 검사 함수
 int Reflexive(int relation[][2], int n, int set[], int set_size) {
     for (int i = 0; i < set_size; i++) {
         int found = 0;
@@ -18,7 +18,7 @@ int Reflexive(int relation[][2], int n, int set[], int set_size) {
     return 1;  // 모든 원소에 대해 성립 1 반환
 }
 
-// 대칭성 여부
+// 대칭성 여부 검사 함수
 int Symmetric(int relation[][2], int n) {
     for (int i = 0; i < n; i++) {
         int found = 0;
@@ -33,7 +33,7 @@ int Symmetric(int relation[][2], int n) {
     return 1;  // 모든 관계에 대해 성립 1 반환
 }
 
-// 추이성 여부
+// 추이성 여부 검사 함수
 int Transitive(int relation[][2], int n) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
