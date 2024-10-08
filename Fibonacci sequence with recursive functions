@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int get() {
+    int value;
+    printf("피보나치 수열의 마지막 항의 번호 입력: ");
+    scanf("%d", &value);
+    return value;
+}
+
+int fibonacci(int n) {  // 재귀함수
+    if (n == 0) {
+        return 0;
+    }
+    if (n == 1) {
+        return 1;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+int main(void) {
+    int n = get();
+    for(int i = 0; i < n; i++) {
+        printf("%d ", fibonacci(i));
+    }
+    return 0;
+}
